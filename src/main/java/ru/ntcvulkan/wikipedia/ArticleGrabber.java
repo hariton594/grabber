@@ -16,6 +16,7 @@ public class ArticleGrabber {
     public Article grab(String url) {
         if (url==null || url.isEmpty())
             return null;
+
         log.debug("Получение статьи: {}", url);
 
         String protocol;
