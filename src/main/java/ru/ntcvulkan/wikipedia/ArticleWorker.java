@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
+import java.util.concurrent.ThreadLocalRandom;
 
 @Slf4j
 public class ArticleWorker implements Callable<Article> {
@@ -27,6 +28,9 @@ public class ArticleWorker implements Callable<Article> {
      */
     @Override
     public Article call() throws Exception {
+
+        Thread.sleep(ThreadLocalRandom.current().nextInt(0, grabber.getMaxDelay() + 1)*1000);
+
         ArticleGrabber grabable = new ArticleGrabber();
 
         Article article = grabber.getDao().get(this.url);
