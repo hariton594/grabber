@@ -3,6 +3,8 @@ package ru.ntcvulkan.wikipedia;
 import lombok.extern.slf4j.Slf4j;
 import ru.ntcvulkan.grab.GrabberException;
 
+import java.util.Collection;
+import java.util.LinkedList;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -20,8 +22,10 @@ public class WikipediaGrabber {
         init();
 
         try {
-            Future<Article> article = executor.submit(new ArticleWorker(this, url, 0));
-            article.get();
+            Future<Article> future = executor.submit(new ArticleWorker(this, url));
+            Article article = future.get();
+            grab(article, 0);
+
         } catch (InterruptedException ie) {
             log.error("", ie);
 
@@ -30,6 +34,20 @@ public class WikipediaGrabber {
         }
 
         executor.shutdown();
+    }
+
+    private void grab(Article parent, int currentLevel) throws InterruptedException, ExecutionException {
+        if (currentLevel<getMaxLevel()) {
+            currentLevel++;
+            Collection<Future<Article>> results = new LinkedList<>();
+            for(Article r : parent.getRelations()) {
+                results.add(executor.submit(new ArticleWorker(this, r.getUrl())));
+            }
+
+            for(Future<Article> f : results) {
+                grab(f.get(), currentLevel);
+            }
+        }
     }
 
     private void init() {
@@ -58,9 +76,5 @@ public class WikipediaGrabber {
 
     public void setMaxLevel(int maxLevel) {
         this.maxLevel = maxLevel;
-    }
-
-    public ExecutorService getExecutor() {
-        return executor;
     }
 }
