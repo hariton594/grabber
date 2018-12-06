@@ -16,4 +16,8 @@ public class WikipediaDAO {
 
         db.put(article.getUrl(), article);
     }
+
+    public int getCountArticles() {
+        return db.size();
+    }
 }
