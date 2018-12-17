@@ -2,13 +2,11 @@ package ru.ntcvulkan.wikipedia;
 
 import lombok.extern.slf4j.Slf4j;
 import ru.ntcvulkan.grab.GrabberException;
+import ru.ntcvulkan.util.ThreadFactoryBuilder;
 
 import java.util.Collection;
 import java.util.LinkedList;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
+import java.util.concurrent.*;
 
 @Slf4j
 public class WikipediaGrabber {
@@ -51,7 +49,11 @@ public class WikipediaGrabber {
     }
 
     private void init() {
-        executor = Executors.newFixedThreadPool(countThreads);
+        final ThreadFactory threadFactory = new ThreadFactoryBuilder()
+                .setNameFormat("grabber-%d")
+                .setDaemon(true)
+                .build();
+        executor = Executors.newFixedThreadPool(countThreads, threadFactory);
     }
 
     public WikipediaDAO getDao() {
