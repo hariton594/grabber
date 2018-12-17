@@ -9,7 +9,6 @@ import java.util.concurrent.ThreadLocalRandom;
 public class ArticleWorker implements Callable<Article> {
     private WikipediaGrabber grabber;
     private String url;
-    private int level;
 
     public ArticleWorker(WikipediaGrabber grabber, String url) {
         this.grabber = grabber;
@@ -24,7 +23,6 @@ public class ArticleWorker implements Callable<Article> {
      */
     @Override
     public Article call() throws Exception {
-
         Thread.sleep(ThreadLocalRandom.current().nextInt(0, grabber.getMaxDelay() + 1)*1000);
 
         ArticleGrabber grabable = new ArticleGrabber();
