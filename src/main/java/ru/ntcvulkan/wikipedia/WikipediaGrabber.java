@@ -50,10 +50,14 @@ public class WikipediaGrabber {
 
     private void init() {
         final ThreadFactory threadFactory = new ThreadFactoryBuilder()
-                .setNameFormat("grabber-%d")
-                .setDaemon(true)
-                .build();
+               .setNameFormat("grabber-%d")
+               .setDaemon(true)
+               .build();
         executor = Executors.newFixedThreadPool(countThreads, threadFactory);
+
+        log.debug("countThreads: {}", this.countThreads);
+        log.debug("maxDelay: {}", this.maxDelay);
+        log.debug("maxLevel: {}", this.maxLevel);
     }
 
     public WikipediaDAO getDao() {
