@@ -1,4 +1,4 @@
-package ru.ntcvulkan.wikipedia;
+package ru.ntcvulkan;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
