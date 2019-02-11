@@ -1,4 +1,4 @@
-package ru.ntcvulkan.monitoring.service;
+package ru.ntcvulkan.monitoring.service.health;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
