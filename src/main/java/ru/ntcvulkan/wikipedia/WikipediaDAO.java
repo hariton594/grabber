@@ -1,8 +1,11 @@
 package ru.ntcvulkan.wikipedia;
 
+import org.springframework.stereotype.Service;
+
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Service
 public class WikipediaDAO {
     private Map<String, Article> db = new ConcurrentHashMap<>();
 
